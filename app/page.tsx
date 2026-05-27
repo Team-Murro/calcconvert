@@ -71,6 +71,13 @@ export default function HomePage() {
           </div>
         </div>
       </main>
+
+      <footer className="border-t border-gray-200 mt-16">
+        <div className="max-w-4xl mx-auto px-4 py-6 text-center text-sm text-gray-400">
+          © {new Date().getFullYear()} CalcConvert.{' '}
+          <Link href="/privacy" className="hover:text-gray-600">Privacy Policy</Link>
+        </div>
+      </footer>
     </div>
   );
 }

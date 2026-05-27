@@ -6,6 +6,7 @@ const BASE_URL = 'https://calcconvert.net';
 export default function sitemap(): MetadataRoute.Sitemap {
   const urls: MetadataRoute.Sitemap = [
     { url: BASE_URL, priority: 1.0, changeFrequency: 'monthly' },
+    { url: `${BASE_URL}/privacy`, priority: 0.3, changeFrequency: 'yearly' },
   ];
 
   for (const category of CATEGORIES) {
