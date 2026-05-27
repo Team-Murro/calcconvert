@@ -3,6 +3,7 @@ import { CATEGORIES, getConversions, POPULAR_VALUES } from '@/lib/units';
 import { getCurrencyConversions, POPULAR_CURRENCY_VALUES } from '@/lib/currencies';
 
 const BASE_URL = 'https://calcconvert.net';
+const LANGS = ['', '/es', '/pt'] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const urls: MetadataRoute.Sitemap = [
@@ -11,38 +12,51 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   for (const category of CATEGORIES) {
-    // 카테고리 페이지
     urls.push({
       url: `${BASE_URL}/${category.key}`,
       priority: 0.9,
       changeFrequency: 'monthly',
     });
 
-    // 변환 페이지
     for (const conv of getConversions(category)) {
-      urls.push({
-        url: `${BASE_URL}/${category.key}/${conv.slug}`,
-        priority: 0.8,
-        changeFrequency: 'monthly',
-      });
-
-      // 롱테일 (숫자 포함) 페이지
-      for (const val of POPULAR_VALUES[category.key]) {
+      for (const lang of LANGS) {
         urls.push({
-          url: `${BASE_URL}/${category.key}/${conv.slug}/${val}`,
-          priority: 0.6,
+          url: `${BASE_URL}${lang}/${category.key}/${conv.slug}`,
+          priority: 0.8,
           changeFrequency: 'monthly',
         });
+      }
+
+      for (const val of POPULAR_VALUES[category.key]) {
+        for (const lang of LANGS) {
+          urls.push({
+            url: `${BASE_URL}${lang}/${category.key}/${conv.slug}/${val}`,
+            priority: 0.6,
+            changeFrequency: 'monthly',
+          });
+        }
       }
     }
   }
 
-  // 환율
   urls.push({ url: `${BASE_URL}/currency`, priority: 0.9, changeFrequency: 'daily' });
+
   for (const conv of getCurrencyConversions()) {
-    urls.push({ url: `${BASE_URL}/currency/${conv.slug}`, priority: 0.8, changeFrequency: 'daily' });
+    for (const lang of LANGS) {
+      urls.push({
+        url: `${BASE_URL}${lang}/currency/${conv.slug}`,
+        priority: 0.8,
+        changeFrequency: 'daily',
+      });
+    }
     for (const val of POPULAR_CURRENCY_VALUES) {
-      urls.push({ url: `${BASE_URL}/currency/${conv.slug}/${val}`, priority: 0.6, changeFrequency: 'daily' });
+      for (const lang of LANGS) {
+        urls.push({
+          url: `${BASE_URL}${lang}/currency/${conv.slug}/${val}`,
+          priority: 0.6,
+          changeFrequency: 'daily',
+        });
+      }
     }
   }
 

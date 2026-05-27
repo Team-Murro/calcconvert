@@ -1,9 +1,15 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getCurrencyConversions, parseCurrencySlug } from '@/lib/currencies';
-import CurrencyClient from './CurrencyClient';
+import { t, LANG_META } from '@/lib/translations';
+import CurrencyClient from '@/app/currency/[conversion]/CurrencyClient';
 
 export const revalidate = 3600;
+
+const lang = 'es';
+const tr = t[lang];
+const { prefix } = LANG_META[lang];
+const BASE_URL = 'https://calcconvert.net';
 
 interface Props {
   params: Promise<{ conversion: string }>;
@@ -11,28 +17,6 @@ interface Props {
 
 export async function generateStaticParams() {
   return getCurrencyConversions().map((c) => ({ conversion: c.slug }));
-}
-
-const BASE_URL = 'https://calcconvert.net';
-
-export async function generateMetadata({ params }: Props) {
-  const { conversion } = await params;
-  const parsed = parseCurrencySlug(conversion);
-  if (!parsed) return {};
-  const { from, to } = parsed;
-  return {
-    title: `${from.code} to ${to.code} — ${from.name} to ${to.name} Converter | CalcConvert`,
-    description: `Convert ${from.name} (${from.code}) to ${to.name} (${to.code}). Live exchange rates updated hourly.`,
-    alternates: {
-      canonical: `${BASE_URL}/currency/${conversion}`,
-      languages: {
-        'en': `${BASE_URL}/currency/${conversion}`,
-        'es': `${BASE_URL}/es/currency/${conversion}`,
-        'pt': `${BASE_URL}/pt/currency/${conversion}`,
-        'x-default': `${BASE_URL}/currency/${conversion}`,
-      },
-    },
-  };
 }
 
 async function getRates() {
@@ -47,7 +31,27 @@ async function getRates() {
   }
 }
 
-export default async function CurrencyPage({ params }: Props) {
+export async function generateMetadata({ params }: Props) {
+  const { conversion } = await params;
+  const parsed = parseCurrencySlug(conversion);
+  if (!parsed) return {};
+  const { from, to } = parsed;
+  return {
+    title: tr.metaTitle(from.code, from.code, to.code),
+    description: tr.metaDesc(from.name, to.name),
+    alternates: {
+      canonical: `${BASE_URL}${prefix}/currency/${conversion}`,
+      languages: {
+        'en': `${BASE_URL}/currency/${conversion}`,
+        'es': `${BASE_URL}/es/currency/${conversion}`,
+        'pt': `${BASE_URL}/pt/currency/${conversion}`,
+        'x-default': `${BASE_URL}/currency/${conversion}`,
+      },
+    },
+  };
+}
+
+export default async function CurrencyPageEs({ params }: Props) {
   const { conversion } = await params;
   const parsed = parseCurrencySlug(conversion);
   if (!parsed) notFound();
@@ -60,9 +64,10 @@ export default async function CurrencyPage({ params }: Props) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: `${from.code} to ${to.code} Converter`,
-    description: `Convert ${from.name} to ${to.name} with live exchange rates.`,
+    name: tr.convertXtoY(from.code, to.code),
+    description: tr.convertDesc(from.name, from.code, to.name, to.code),
     applicationCategory: 'FinanceApplication',
+    inLanguage: LANG_META[lang].hreflang,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   };
 
@@ -74,26 +79,26 @@ export default async function CurrencyPage({ params }: Props) {
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-3 flex-wrap">
           <Link href="/" className="text-blue-600 font-bold text-xl">CalcConvert</Link>
           <span className="text-gray-400">/</span>
-          <Link href="/currency" className="text-gray-600 hover:text-blue-600">Currency</Link>
+          <Link href="/currency" className="text-gray-600 hover:text-blue-600">{tr.currency}</Link>
           <span className="text-gray-400">/</span>
-          <span className="text-gray-800">{from.code} to {to.code}</span>
+          <span className="text-gray-800">{from.code} → {to.code}</span>
         </div>
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          {from.code} to {to.code} Converter
+          {tr.convertXtoY(from.code, to.code)}
         </h1>
         <p className="text-gray-500 mb-2">
-          Convert {from.name} to {to.name} with live exchange rates.
+          {tr.convertDesc(from.name, from.code, to.name, to.code)}
         </p>
         {rate && (
           <p className="text-sm text-gray-400 mb-8">
-            1 {from.code} = {rate.toFixed(4)} {to.code} · Updated {date}
+            1 {from.code} = {rate.toFixed(4)} {to.code} · {tr.rateAsOf(date)}
           </p>
         )}
 
-        <CurrencyClient from={from} to={to} initialRates={rates} rateDate={date} />
+        <CurrencyClient from={from} to={to} initialRates={rates} rateDate={date} lang={lang} />
       </main>
     </div>
   );

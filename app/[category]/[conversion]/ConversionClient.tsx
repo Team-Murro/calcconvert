@@ -3,16 +3,20 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { CategoryConfig, Unit, convert, formatNumber, getConversions } from '@/lib/units';
+import { t, Lang, LANG_META } from '@/lib/translations';
 
 interface Props {
   category: CategoryConfig;
   from: Unit;
   to: Unit;
   initialValue?: number;
+  lang?: Lang;
 }
 
-export default function ConversionClient({ category, from, to, initialValue = 1 }: Props) {
+export default function ConversionClient({ category, from, to, initialValue = 1, lang = 'en' }: Props) {
   const [inputValue, setInputValue] = useState(String(initialValue));
+  const tr = t[lang];
+  const prefix = LANG_META[lang].prefix;
 
   const numValue = parseFloat(inputValue) || 0;
   const result = convert(numValue, from.key, to.key, category.key);
@@ -23,7 +27,6 @@ export default function ConversionClient({ category, from, to, initialValue = 1 
 
   return (
     <>
-      {/* Calculator */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
           <div>
@@ -52,10 +55,9 @@ export default function ConversionClient({ category, from, to, initialValue = 1 
         </div>
       </div>
 
-      {/* Common Values Table */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">
-          Common {from.label} to {to.label} Conversions
+          {tr.commonConversions(from.label, to.label)}
         </h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -69,7 +71,7 @@ export default function ConversionClient({ category, from, to, initialValue = 1 
               {[1, 2, 5, 10, 20, 50, 100, 200, 500, 1000].map((v) => (
                 <tr key={v} className="border-b border-gray-50 hover:bg-gray-50">
                   <td className="py-2 pr-4 font-medium text-gray-700">
-                    <Link href={`/${category.key}/${from.key}-to-${to.key}/${v}`} className="hover:text-blue-600">
+                    <Link href={`${prefix}/${category.key}/${from.key}-to-${to.key}/${v}`} className="hover:text-blue-600">
                       {v} {from.symbol}
                     </Link>
                   </td>
@@ -83,9 +85,8 @@ export default function ConversionClient({ category, from, to, initialValue = 1 
         </div>
       </div>
 
-      {/* Other Conversions */}
       <div>
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Other {category.label} Conversions</h2>
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">{tr.otherConversions(category.label)}</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {otherConversions.map((c) => {
             const fromUnit = category.units.find((u) => u.key === c.from)!;
@@ -93,7 +94,7 @@ export default function ConversionClient({ category, from, to, initialValue = 1 
             return (
               <Link
                 key={c.slug}
-                href={`/${category.key}/${c.slug}`}
+                href={`${prefix}/${category.key}/${c.slug}`}
                 className="bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-600 hover:border-blue-300 hover:text-blue-600 transition-colors"
               >
                 {fromUnit.label} → {toUnit.label}

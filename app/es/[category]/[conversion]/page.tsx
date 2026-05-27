@@ -1,7 +1,13 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { CATEGORIES, getCategoryByKey, parseConversionSlug, getConversions, convert, formatNumber } from '@/lib/units';
-import ConversionClient from './ConversionClient';
+import { t, LANG_META } from '@/lib/translations';
+import ConversionClient from '@/app/[category]/[conversion]/ConversionClient';
+
+const lang = 'es';
+const tr = t[lang];
+const { prefix } = LANG_META[lang];
+const BASE_URL = 'https://calcconvert.net';
 
 interface Props {
   params: Promise<{ category: string; conversion: string }>;
@@ -17,8 +23,6 @@ export async function generateStaticParams() {
   return paths;
 }
 
-const BASE_URL = 'https://calcconvert.net';
-
 export async function generateMetadata({ params }: Props) {
   const { category: catKey, conversion } = await params;
   const category = getCategoryByKey(catKey);
@@ -27,10 +31,10 @@ export async function generateMetadata({ params }: Props) {
   if (!parsed) return {};
   const { from, to } = parsed;
   return {
-    title: `${from.label} to ${to.label} Converter | CalcConvert`,
-    description: `Free online ${from.label} to ${to.label} converter. Instantly convert ${from.symbol} to ${to.symbol} with a simple calculator.`,
+    title: tr.metaTitle(from.label, from.symbol, to.label),
+    description: tr.metaDesc(from.label, to.label),
     alternates: {
-      canonical: `${BASE_URL}/${catKey}/${conversion}`,
+      canonical: `${BASE_URL}${prefix}/${catKey}/${conversion}`,
       languages: {
         'en': `${BASE_URL}/${catKey}/${conversion}`,
         'es': `${BASE_URL}/es/${catKey}/${conversion}`,
@@ -41,7 +45,7 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function ConversionPage({ params }: Props) {
+export default async function ConversionPageEs({ params }: Props) {
   const { category: catKey, conversion } = await params;
   const category = getCategoryByKey(catKey);
   if (!category) notFound();
@@ -54,19 +58,20 @@ export default async function ConversionPage({ params }: Props) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: `${from.label} to ${to.label} Converter`,
-    url: `https://calcconvert.net/${category!.key}/${conversion}`,
-    description: `Convert ${from.label} (${from.symbol}) to ${to.label} (${to.symbol}) instantly.`,
+    name: tr.convertXtoY(from.label, to.label),
+    url: `${BASE_URL}${prefix}/${category!.key}/${conversion}`,
+    description: tr.convertDesc(from.label, from.symbol, to.label, to.symbol),
     applicationCategory: 'UtilitiesApplication',
+    inLanguage: LANG_META[lang].hreflang,
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     faq: {
       '@type': 'FAQPage',
       mainEntity: [1, 5, 10, 100].map((v) => ({
         '@type': 'Question',
-        name: `How many ${to.label} is ${v} ${from.label}?`,
+        name: tr.howMany(to.label, String(v), from.label),
         acceptedAnswer: {
           '@type': 'Answer',
-          text: `${v} ${from.symbol} = ${formatNumber(convert(v, from.key, to.key, category!.key))} ${to.symbol}`,
+          text: tr.answerText(String(v), from.symbol, formatNumber(convert(v, from.key, to.key, category!.key)), to.symbol),
         },
       })),
     },
@@ -82,19 +87,19 @@ export default async function ConversionPage({ params }: Props) {
           <span className="text-gray-400">/</span>
           <Link href={`/${category!.key}`} className="text-gray-600 hover:text-blue-600">{category!.label}</Link>
           <span className="text-gray-400">/</span>
-          <span className="text-gray-800">{from.label} to {to.label}</span>
+          <span className="text-gray-800">{from.label} → {to.label}</span>
         </div>
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          {from.label} to {to.label} Converter
+          {tr.convertXtoY(from.label, to.label)}
         </h1>
         <p className="text-gray-500 mb-8">
-          Convert {from.label} ({from.symbol}) to {to.label} ({to.symbol}) instantly.
+          {tr.convertDesc(from.label, from.symbol, to.label, to.symbol)}
         </p>
 
-        <ConversionClient category={category!} from={from} to={to} />
+        <ConversionClient category={category!} from={from} to={to} lang={lang} />
       </main>
     </div>
   );

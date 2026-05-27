@@ -3,18 +3,22 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Currency, CURRENCIES, formatCurrency, POPULAR_CURRENCY_VALUES } from '@/lib/currencies';
+import { t, Lang, LANG_META } from '@/lib/translations';
 
 interface Props {
   from: Currency;
   to: Currency;
   initialRates: Record<string, number> | null;
   rateDate: string;
+  lang?: Lang;
 }
 
-export default function CurrencyClient({ from, to, initialRates, rateDate }: Props) {
+export default function CurrencyClient({ from, to, initialRates, rateDate, lang = 'en' }: Props) {
   const [rates, setRates] = useState<Record<string, number> | null>(initialRates);
   const [inputValue, setInputValue] = useState('1');
   const [loading, setLoading] = useState(!initialRates);
+  const tr = t[lang];
+  const prefix = LANG_META[lang].prefix;
 
   useEffect(() => {
     if (!rates) {
@@ -41,7 +45,6 @@ export default function CurrencyClient({ from, to, initialRates, rateDate }: Pro
 
   return (
     <>
-      {/* Calculator */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
           <div>
@@ -72,14 +75,13 @@ export default function CurrencyClient({ from, to, initialRates, rateDate }: Pro
           </div>
         </div>
         <div className="mt-4 pt-4 border-t border-gray-100 text-sm text-gray-400">
-          Exchange rate as of {rateDate} · Updated hourly
+          {tr.rateAsOf(rateDate)} · {tr.updatedHourly}
         </div>
       </div>
 
-      {/* Common Values Table */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
         <h2 className="text-lg font-semibold text-gray-800 mb-4">
-          Common {from.code} to {to.code} Conversions
+          {tr.commonConversions(from.code, to.code)}
         </h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -96,7 +98,7 @@ export default function CurrencyClient({ from, to, initialRates, rateDate }: Pro
                   <tr key={v} className="border-b border-gray-50 hover:bg-gray-50">
                     <td className="py-2 pr-4 font-medium text-gray-700">
                       <Link
-                        href={`/currency/${from.code.toLowerCase()}-to-${to.code.toLowerCase()}/${v}`}
+                        href={`${prefix}/currency/${from.code.toLowerCase()}-to-${to.code.toLowerCase()}/${v}`}
                         className="hover:text-blue-600"
                       >
                         {from.symbol}{v.toLocaleString()}
@@ -113,14 +115,13 @@ export default function CurrencyClient({ from, to, initialRates, rateDate }: Pro
         </div>
       </div>
 
-      {/* Other pairs */}
       <div>
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Other {from.code} Conversions</h2>
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">{tr.otherConversions(from.code)}</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {otherPairs.map((p) => (
             <Link
               key={p.slug}
-              href={`/currency/${p.slug}`}
+              href={`${prefix}/currency/${p.slug}`}
               className="bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-600 hover:border-blue-300 hover:text-blue-600 transition-colors text-center"
             >
               {from.code} → {p.code}
