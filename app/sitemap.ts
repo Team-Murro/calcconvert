@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { CATEGORIES, getConversions, POPULAR_VALUES } from '@/lib/units';
+import { getCurrencyConversions, POPULAR_CURRENCY_VALUES } from '@/lib/currencies';
 
 const BASE_URL = 'https://calcconvert.net';
 
@@ -33,6 +34,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
           changeFrequency: 'monthly',
         });
       }
+    }
+  }
+
+  // 환율
+  urls.push({ url: `${BASE_URL}/currency`, priority: 0.9, changeFrequency: 'daily' });
+  for (const conv of getCurrencyConversions()) {
+    urls.push({ url: `${BASE_URL}/currency/${conv.slug}`, priority: 0.8, changeFrequency: 'daily' });
+    for (const val of POPULAR_CURRENCY_VALUES) {
+      urls.push({ url: `${BASE_URL}/currency/${conv.slug}/${val}`, priority: 0.6, changeFrequency: 'daily' });
     }
   }
 

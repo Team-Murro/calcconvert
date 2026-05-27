@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { CATEGORIES, getConversions } from '@/lib/units';
+import { getCurrencyConversions } from '@/lib/currencies';
 
 export const metadata = {
   title: 'CalcConvert — Free Online Unit Converter',
@@ -53,6 +54,14 @@ export default function HomePage() {
               </Link>
             );
           })}
+          <Link
+            href="/currency"
+            className="bg-white border border-gray-200 rounded-2xl p-6 hover:border-blue-300 hover:shadow-sm transition-all group text-center"
+          >
+            <div className="text-2xl mb-2">💱</div>
+            <div className="font-semibold text-gray-800 group-hover:text-blue-600">Currency</div>
+            <div className="text-sm text-gray-400 mt-1">{getCurrencyConversions().length} conversions</div>
+          </Link>
         </div>
 
         {/* Popular Conversions */}
