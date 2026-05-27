@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getCurrencyConversions, parseCurrencySlug, formatCurrency, POPULAR_CURRENCY_VALUES } from '@/lib/currencies';
 import { t, LANG_META } from '@/lib/translations';
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 const lang = 'pt';
 const tr = t[lang];

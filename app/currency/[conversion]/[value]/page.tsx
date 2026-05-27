@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getCurrencyConversions, parseCurrencySlug, formatCurrency, POPULAR_CURRENCY_VALUES } from '@/lib/currencies';
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 interface Props {
   params: Promise<{ conversion: string; value: string }>;
