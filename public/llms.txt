@@ -1,0 +1,32 @@
+# CalcConvert
+
+> Free online unit converter. Convert length, weight, temperature, area, and speed instantly.
+
+CalcConvert (calcconvert.net) is a free, fast unit conversion tool with no ads or signup required.
+All conversions are calculated client-side with no data sent to servers.
+
+## Categories
+
+- **Length**: mm, cm, m, km, in, ft, yd, mi
+- **Weight**: mg, g, kg, t, oz, lb, st
+- **Temperature**: Celsius, Fahrenheit, Kelvin
+- **Area**: mm², cm², m², km², in², ft², acres, hectares
+- **Speed**: m/s, km/h, mph, knots
+
+## URL Structure
+
+- Category page: /[category] (e.g. /length)
+- Converter page: /[category]/[from]-to-[to] (e.g. /length/cm-to-ft)
+- Specific value: /[category]/[from]-to-[to]/[value] (e.g. /length/cm-to-ft/175)
+
+## Popular Conversions
+
+- /length/cm-to-ft — Centimeters to Feet
+- /length/km-to-mi — Kilometers to Miles
+- /weight/kg-to-lb — Kilograms to Pounds
+- /temperature/c-to-f — Celsius to Fahrenheit
+- /speed/kph-to-mph — km/h to mph
+
+## Contact
+
+saroo815@gmail.com

@@ -62,8 +62,24 @@ export default async function ValuePage({ params }: Props) {
   const relatedValues = POPULAR_VALUES[category!.key].filter((v) => v !== numValue).slice(0, 8);
   const otherConversions = getConversions(category!).filter((c) => c.slug !== conversion).slice(0, 12);
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: `${value} ${from.label} to ${to.label}`,
+    description: `${value} ${from.symbol} = ${formatNumber(result)} ${to.symbol}`,
+    mainEntity: {
+      '@type': 'Question',
+      name: `How many ${to.label} is ${value} ${from.label}?`,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: `${value} ${from.symbol} equals ${formatNumber(result)} ${to.symbol}.`,
+      },
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center gap-3 flex-wrap">
           <Link href="/" className="text-blue-600 font-bold text-xl">CalcConvert</Link>
