@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 async function getRates() {
   try {
     const res = await fetch('https://api.frankfurter.app/latest?from=USD', {
-      next: { revalidate: 3600 },
+      next: { revalidate: 86400 },
     });
     const data = await res.json();
     return { rates: { USD: 1, ...data.rates } as Record<string, number>, date: data.date as string };
@@ -110,7 +110,7 @@ export default async function CurrencyValuePage({ params }: Props) {
           <p className="text-5xl font-bold mb-2">
             {result !== null ? `${to.symbol}${formatCurrency(result, to.code)}` : '—'}
           </p>
-          <p className="text-blue-200 text-sm">Rate as of {date} · Updated hourly</p>
+          <p className="text-blue-200 text-sm">Rate as of {date} · Updated daily</p>
         </div>
 
         <h1 className="text-2xl font-bold text-gray-900 mb-6">

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getCurrencyConversions, parseCurrencySlug } from '@/lib/currencies';
 import CurrencyClient from './CurrencyClient';
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 interface Props {
   params: Promise<{ conversion: string }>;
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props) {
   const { from, to } = parsed;
   return {
     title: `${from.code} to ${to.code} — ${from.name} to ${to.name} Converter | CalcConvert`,
-    description: `Convert ${from.name} (${from.code}) to ${to.name} (${to.code}). Live exchange rates updated hourly.`,
+    description: `Convert ${from.name} (${from.code}) to ${to.name} (${to.code}). Live exchange rates updated daily.`,
     alternates: {
       canonical: `${BASE_URL}/currency/${conversion}`,
       languages: {
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props) {
 async function getRates() {
   try {
     const res = await fetch('https://api.frankfurter.app/latest?from=USD', {
-      next: { revalidate: 3600 },
+      next: { revalidate: 86400 },
     });
     const data = await res.json();
     return { rates: { USD: 1, ...data.rates } as Record<string, number>, date: data.date as string };

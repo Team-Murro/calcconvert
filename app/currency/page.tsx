@@ -3,7 +3,7 @@ import { CURRENCIES } from '@/lib/currencies';
 
 export const metadata = {
   title: 'Currency Converter — Live Exchange Rates | CalcConvert',
-  description: 'Convert between 24 currencies with live exchange rates updated hourly. USD, EUR, GBP, JPY, KRW and more.',
+  description: 'Convert between 24 currencies with live exchange rates updated daily. USD, EUR, GBP, JPY, KRW and more.',
 };
 
 const POPULAR_PAIRS = [
@@ -30,7 +30,7 @@ export default function CurrencyPage() {
 
       <main className="max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Currency Converter</h1>
-        <p className="text-gray-500 mb-8">Live exchange rates updated hourly. 24 currencies supported.</p>
+        <p className="text-gray-500 mb-8">Live exchange rates updated daily. 24 currencies supported.</p>
 
         <div className="mb-10">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Popular Pairs</h2>

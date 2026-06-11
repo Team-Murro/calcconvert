@@ -30,12 +30,12 @@ export const t = {
     howMany: (y: string, val: string, x: string) => `How many ${y} is ${val} ${x}?`,
     answerText: (val: string, xs: string, result: string, ys: string) =>
       `${val} ${xs} = ${result} ${ys}`,
-    updatedHourly: 'Updated hourly',
+    updatedHourly: 'Updated daily',
     rateAsOf: (date: string) => `Rate as of ${date}`,
     currency: 'Currency',
     popularPairs: 'Popular Pairs',
     allCurrencies: 'All Currencies',
-    liveRates: 'Live exchange rates updated hourly.',
+    liveRates: 'Live exchange rates updated daily.',
   },
   es: {
     siteName: 'CalcConvert',
@@ -60,12 +60,12 @@ export const t = {
     howMany: (y: string, val: string, x: string) => `¿Cuántos ${y} son ${val} ${x}?`,
     answerText: (val: string, xs: string, result: string, ys: string) =>
       `${val} ${xs} = ${result} ${ys}`,
-    updatedHourly: 'Actualizado cada hora',
+    updatedHourly: 'Actualizado a diario',
     rateAsOf: (date: string) => `Tasa al ${date}`,
     currency: 'Divisas',
     popularPairs: 'Pares populares',
     allCurrencies: 'Todas las divisas',
-    liveRates: 'Tipos de cambio en vivo actualizados cada hora.',
+    liveRates: 'Tipos de cambio en vivo actualizados a diario.',
   },
   pt: {
     siteName: 'CalcConvert',
@@ -90,11 +90,11 @@ export const t = {
     howMany: (y: string, val: string, x: string) => `Quantos ${y} são ${val} ${x}?`,
     answerText: (val: string, xs: string, result: string, ys: string) =>
       `${val} ${xs} = ${result} ${ys}`,
-    updatedHourly: 'Atualizado a cada hora',
+    updatedHourly: 'Atualizado diariamente',
     rateAsOf: (date: string) => `Taxa em ${date}`,
     currency: 'Moedas',
     popularPairs: 'Pares populares',
     allCurrencies: 'Todas as moedas',
-    liveRates: 'Taxas de câmbio ao vivo atualizadas a cada hora.',
+    liveRates: 'Taxas de câmbio ao vivo atualizadas diariamente.',
   },
 } as const;

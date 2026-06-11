@@ -23,7 +23,7 @@ export async function generateStaticParams() {
 async function getRates() {
   try {
     const res = await fetch('https://api.frankfurter.app/latest?from=USD', {
-      next: { revalidate: 3600 },
+      next: { revalidate: 86400 },
     });
     const data = await res.json();
     return { rates: { USD: 1, ...data.rates } as Record<string, number>, date: data.date as string };

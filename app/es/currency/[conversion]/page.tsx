@@ -4,7 +4,7 @@ import { getCurrencyConversions, parseCurrencySlug } from '@/lib/currencies';
 import { t, LANG_META } from '@/lib/translations';
 import CurrencyClient from '@/app/currency/[conversion]/CurrencyClient';
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 const lang = 'es';
 const tr = t[lang];
@@ -22,7 +22,7 @@ export async function generateStaticParams() {
 async function getRates() {
   try {
     const res = await fetch('https://api.frankfurter.app/latest?from=USD', {
-      next: { revalidate: 3600 },
+      next: { revalidate: 86400 },
     });
     const data = await res.json();
     return { rates: { USD: 1, ...data.rates } as Record<string, number>, date: data.date as string };
