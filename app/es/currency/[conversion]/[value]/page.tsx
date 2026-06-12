@@ -43,6 +43,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: tr.valueMetaTitle(value, from.code, to.code, result ? formatCurrency(result, to.code) : '—', to.code),
     description: tr.valueMetaDesc(value, from.name, result ? formatCurrency(result, to.code) : '—', to.name),
+    robots: { index: false, follow: true },
     alternates: {
       canonical: `${BASE_URL}${prefix}/currency/${conversion}/${value}`,
       languages: {

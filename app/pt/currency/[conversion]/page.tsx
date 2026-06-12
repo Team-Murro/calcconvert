@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getCurrencyConversions, parseCurrencySlug } from '@/lib/currencies';
 import { t, LANG_META } from '@/lib/translations';
 import CurrencyClient from '@/app/currency/[conversion]/CurrencyClient';
+import CurrencyInfo from '@/components/CurrencyInfo';
 
 export const revalidate = 86400;
 
@@ -99,6 +100,8 @@ export default async function CurrencyPagePt({ params }: Props) {
         )}
 
         <CurrencyClient from={from} to={to} initialRates={rates} rateDate={date} lang={lang} />
+
+        <CurrencyInfo from={from} to={to} rates={rates} lang={lang} />
       </main>
     </div>
   );

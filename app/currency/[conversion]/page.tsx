@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getCurrencyConversions, parseCurrencySlug } from '@/lib/currencies';
 import CurrencyClient from './CurrencyClient';
+import CurrencyInfo from '@/components/CurrencyInfo';
 
 export const revalidate = 86400;
 
@@ -94,6 +95,8 @@ export default async function CurrencyPage({ params }: Props) {
         )}
 
         <CurrencyClient from={from} to={to} initialRates={rates} rateDate={date} />
+
+        <CurrencyInfo from={from} to={to} rates={rates} lang="en" />
       </main>
     </div>
   );

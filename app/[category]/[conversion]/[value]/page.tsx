@@ -44,6 +44,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: `${value} ${from.symbol} to ${to.symbol} — ${formatNumber(result)} ${to.symbol} | CalcConvert`,
     description: `${value} ${from.label} = ${formatNumber(result)} ${to.label}. Free online ${from.label} to ${to.label} converter.`,
+    robots: { index: false, follow: true },
     alternates: {
       canonical: `${BASE_URL}/${catKey}/${conversion}/${value}`,
       languages: {

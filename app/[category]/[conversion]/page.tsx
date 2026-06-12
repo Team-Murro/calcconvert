@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { CATEGORIES, getCategoryByKey, parseConversionSlug, getConversions, convert, formatNumber } from '@/lib/units';
 import ConversionClient from './ConversionClient';
+import UnitInfo from '@/components/UnitInfo';
 
 interface Props {
   params: Promise<{ category: string; conversion: string }>;
@@ -95,6 +96,8 @@ export default async function ConversionPage({ params }: Props) {
         </p>
 
         <ConversionClient category={category!} from={from} to={to} />
+
+        <UnitInfo category={category!} from={from} to={to} lang="en" />
       </main>
     </div>
   );

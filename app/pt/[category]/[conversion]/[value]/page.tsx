@@ -41,6 +41,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: tr.valueMetaTitle(value, from.symbol, to.symbol, formatNumber(result), to.symbol),
     description: tr.valueMetaDesc(value, from.label, formatNumber(result), to.label),
+    robots: { index: false, follow: true },
     alternates: {
       canonical: `${BASE_URL}${prefix}/${catKey}/${conversion}/${value}`,
       languages: {

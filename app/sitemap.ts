@@ -1,13 +1,17 @@
 import { MetadataRoute } from 'next';
-import { CATEGORIES, getConversions, POPULAR_VALUES } from '@/lib/units';
-import { getCurrencyConversions, POPULAR_CURRENCY_VALUES } from '@/lib/currencies';
+import { CATEGORIES, getConversions } from '@/lib/units';
+import { getCurrencyConversions } from '@/lib/currencies';
 
 const BASE_URL = 'https://calcconvert.net';
 const LANGS = ['', '/es', '/pt'] as const;
 
+// 값 페이지(/.../[value])는 noindex 처리 → 사이트맵에서 제외.
+// 컨버터(허브) 페이지만 색인 surface로 유지.
 export default function sitemap(): MetadataRoute.Sitemap {
   const urls: MetadataRoute.Sitemap = [
     { url: BASE_URL, priority: 1.0, changeFrequency: 'monthly' },
+    { url: `${BASE_URL}/about`, priority: 0.5, changeFrequency: 'yearly' },
+    { url: `${BASE_URL}/contact`, priority: 0.5, changeFrequency: 'yearly' },
     { url: `${BASE_URL}/privacy`, priority: 0.3, changeFrequency: 'yearly' },
   ];
 
@@ -26,16 +30,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
           changeFrequency: 'monthly',
         });
       }
-
-      for (const val of POPULAR_VALUES[category.key]) {
-        for (const lang of LANGS) {
-          urls.push({
-            url: `${BASE_URL}${lang}/${category.key}/${conv.slug}/${val}`,
-            priority: 0.6,
-            changeFrequency: 'monthly',
-          });
-        }
-      }
     }
   }
 
@@ -48,15 +42,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.8,
         changeFrequency: 'daily',
       });
-    }
-    for (const val of POPULAR_CURRENCY_VALUES) {
-      for (const lang of LANGS) {
-        urls.push({
-          url: `${BASE_URL}${lang}/currency/${conv.slug}/${val}`,
-          priority: 0.6,
-          changeFrequency: 'daily',
-        });
-      }
     }
   }
 

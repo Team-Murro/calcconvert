@@ -3,8 +3,9 @@ import { CATEGORIES, getConversions } from '@/lib/units';
 import { getCurrencyConversions } from '@/lib/currencies';
 
 export const metadata = {
-  title: 'CalcConvert — Free Online Unit Converter',
-  description: 'Convert length, weight, temperature, area, and speed units instantly. Free online unit converter.',
+  title: 'CalcConvert — Free Unit & Currency Converter',
+  description:
+    'Convert length, weight, temperature, area, speed, and world currencies instantly. Free online converter with reference tables — no sign-up required.',
 };
 
 const POPULAR_CONVERSIONS = [
@@ -29,8 +30,10 @@ export default function HomePage() {
 
       <main className="max-w-4xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Free Online Unit Converter</h1>
-          <p className="text-gray-500 text-lg">Convert length, weight, temperature, area, and speed — instantly.</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Free Unit &amp; Currency Converter</h1>
+          <p className="text-gray-500 text-lg">
+            Convert length, weight, temperature, area, speed, and world currencies — instantly.
+          </p>
         </div>
 
         {/* Categories */}
@@ -65,7 +68,7 @@ export default function HomePage() {
         </div>
 
         {/* Popular Conversions */}
-        <div>
+        <div className="mb-16">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Popular Conversions</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {POPULAR_CONVERSIONS.map((item) => (
@@ -79,14 +82,30 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </main>
 
-      <footer className="border-t border-gray-200 mt-16">
-        <div className="max-w-4xl mx-auto px-4 py-6 text-center text-sm text-gray-400">
-          © {new Date().getFullYear()} CalcConvert.{' '}
-          <Link href="/privacy" className="hover:text-gray-600">Privacy Policy</Link>
-        </div>
-      </footer>
+        {/* About / content */}
+        <section className="max-w-3xl text-gray-700 leading-relaxed space-y-5">
+          <h2 className="text-2xl font-bold text-gray-900">A fast, accurate converter for everyday questions</h2>
+          <p>
+            CalcConvert is a free online tool that answers everyday conversion questions in a single
+            tap — how many feet are in a meter, what 100 dollars is in euros, or how fast 60 miles per
+            hour is in kilometers. Instead of digging through search results, you get the number you
+            need right away, along with a reference table and a short explanation on every page.
+          </p>
+          <p>
+            We cover five everyday measurement categories — <strong>length, weight, temperature,
+            area, and speed</strong> — built on standard, internationally recognized conversion
+            factors. For money, our <Link href="/currency" className="text-blue-600 hover:underline">currency
+            converter</Link> uses official European Central Bank reference rates, refreshed every
+            business day, so the figures you see reflect real market values.
+          </p>
+          <p>
+            Everything on CalcConvert is free, works instantly in your browser, and needs no account
+            or download. To learn more about the project and our data sources, visit the{' '}
+            <Link href="/about" className="text-blue-600 hover:underline">About</Link> page.
+          </p>
+        </section>
+      </main>
     </div>
   );
 }

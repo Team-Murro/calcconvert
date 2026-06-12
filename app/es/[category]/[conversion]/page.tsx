@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { CATEGORIES, getCategoryByKey, parseConversionSlug, getConversions, convert, formatNumber } from '@/lib/units';
 import { t, LANG_META } from '@/lib/translations';
 import ConversionClient from '@/app/[category]/[conversion]/ConversionClient';
+import UnitInfo from '@/components/UnitInfo';
 
 const lang = 'es';
 const tr = t[lang];
@@ -100,6 +101,8 @@ export default async function ConversionPageEs({ params }: Props) {
         </p>
 
         <ConversionClient category={category!} from={from} to={to} lang={lang} />
+
+        <UnitInfo category={category!} from={from} to={to} lang={lang} />
       </main>
     </div>
   );

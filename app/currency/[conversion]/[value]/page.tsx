@@ -39,6 +39,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: `${value} ${from.code} to ${to.code}${result ? ` = ${formatCurrency(result, to.code)} ${to.code}` : ''} | CalcConvert`,
     description: `${value} ${from.name} equals ${result ? formatCurrency(result, to.code) : '—'} ${to.name}. Live exchange rate converter.`,
+    robots: { index: false, follow: true },
     alternates: {
       canonical: `${BASE_URL}/currency/${conversion}/${value}`,
       languages: {
