@@ -32,8 +32,8 @@ export default function ContactPage() {
           <div className="bg-white border border-gray-200 rounded-xl p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-2">Email</h2>
             <p className="text-gray-700">
-              <a href="mailto:saroo815@gmail.com" className="text-blue-600 hover:underline">
-                saroo815@gmail.com
+              <a href="mailto:support@murro.co.kr" className="text-blue-600 hover:underline">
+                support@murro.co.kr
               </a>
             </p>
             <p className="text-sm text-gray-500 mt-2">

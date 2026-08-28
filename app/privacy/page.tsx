@@ -110,8 +110,8 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-semibold text-gray-800 mb-3">8. Contact</h2>
             <p>
               If you have any questions about this Privacy Policy, please contact us at:{' '}
-              <a href="mailto:saroo815@gmail.com" className="text-blue-600 hover:underline">
-                saroo815@gmail.com
+              <a href="mailto:support@murro.co.kr" className="text-blue-600 hover:underline">
+                support@murro.co.kr
               </a>
             </p>
           </section>
